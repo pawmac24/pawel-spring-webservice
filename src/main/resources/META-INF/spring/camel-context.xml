@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+    <cxf:cxfEndpoint id="claimEndpoint" address="http://localhost:9191/cxf/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>
+    <!--<cxf:cxfEndpoint id="claimEndpoint" address="/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>-->
+    <cxf:rsServer id="statusEndpoint" address="http://localhost:9191/cxf/status" serviceClass="com.pawel.fuse.example.StatusService"/>
+    <!--<cxf:rsServer id="statusEndpoint" address="/status" serviceClass="com.pawel.fuse.example.StatusService"/>-->
+
+    <bean id="claimProcessor" class="com.pawel.fuse.example.ClaimProcessor"/>
+
+    <camelContext id="mainCamelContext" xmlns="http://camel.apache.org/schema/spring">
+        <route id="cxfRoute">
+            <from uri="cxf:bean:claimEndpoint"/>
+            <log message="${header.operationName}"/>
+            <recipientList>
+                <simple>direct:${header.operationName}</simple>
+            </recipientList>
+        </route>
+        <route id="applyRoute">
+            <from uri="direct:apply"/>
+            <bean method="process" ref="claimProcessor"/>
+        </route>
+        <route id="cancelRoute">
+            <from uri="direct:cancel"/>
+            <bean method="cancel" ref="claimProcessor"/>
+        </route>
+        <route>
+            <from uri="cxfrs:bean:statusEndpoint"/>
+            <log message="${header.operationName}"/>
+            <choice>
+                <when>
+                    <simple>${header.operationName} == "status"</simple>
+                    <bean method="status" ref="claimProcessor"/>
+                </when>
+                <when>
+                    <simple>${header.operationName} == "restCancel"</simple>
+                    <setHeader headerName="operationName">
+                        <simple>cancel</simple>
+                    </setHeader>
+                    <bean method="prepareList" ref="claimProcessor"/>
+                    <to uri="cxf:bean:claimEndpoint"/>
+                </when>
+            </choice>
+            <marshal>
+                <json library="Jackson" prettyPrint="true"/>
+            </marshal>
+        </route>
+    </camelContext>
+
+</beans>
