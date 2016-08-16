@@ -9,10 +9,10 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
-    <cxf:cxfEndpoint id="claimEndpoint" address="http://localhost:9191/cxf/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>
-    <!--<cxf:cxfEndpoint id="claimEndpoint" address="/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>-->
-    <cxf:rsServer id="statusEndpoint" address="http://localhost:9191/cxf/status" serviceClass="com.pawel.fuse.example.StatusService"/>
-    <!--<cxf:rsServer id="statusEndpoint" address="/status" serviceClass="com.pawel.fuse.example.StatusService"/>-->
+    <!--<cxf:cxfEndpoint id="claimEndpoint" address="http://localhost:9191/cxf/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>-->
+    <cxf:cxfEndpoint id="claimEndpoint" address="/claim" serviceClass="com.pawel.fuse.example.ClaimService"/>
+    <!--<cxf:rsServer id="statusEndpoint" address="http://localhost:9191/cxf/status" serviceClass="com.pawel.fuse.example.StatusService"/>-->
+    <cxf:rsServer id="statusEndpoint" address="/status" serviceClass="com.pawel.fuse.example.StatusService"/>
 
     <bean id="claimProcessor" class="com.pawel.fuse.example.ClaimProcessor"/>
 
