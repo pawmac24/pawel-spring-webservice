@@ -17,10 +17,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <camel.version>2.15.1.redhat-621084</camel.version>
         <cxf.runtime.version>3.0.4.redhat-621084</cxf.runtime.version>
+        <!--fabric8 properites -->
         <fabric8.maven.plugin.version>1.2.0.redhat-621084</fabric8.maven.plugin.version>
-        <fabric8.parentProfiles>feature-camel</fabric8.parentProfiles>
+        <fabric8.parentProfiles>feature-camel feature-cxf</fabric8.parentProfiles>
         <fabric8.profile>pawel-spring-claim</fabric8.profile>
-        <fabric8.features>camel-jackson camel-cxf</fabric8.features>
+        <fabric8.features>camel-jackson camel-cxf fabric-cxf-registry fabric-cxf fabric-zookeeper fabric-groups</fabric8.features>
         <fabric8.featureRepos>mvn:org.apache.camel.karaf/apache-camel/2.15.1.redhat-621084/xml/features</fabric8.featureRepos>
     </properties>
 
