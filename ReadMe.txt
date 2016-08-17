@@ -19,6 +19,8 @@ For more help see the Apache Camel documentation
 
     http://camel.apache.org/
 
+Run fuse in fuse_6.2.1/bin
+    fuse
 
 Deploy using fabric8:
 
