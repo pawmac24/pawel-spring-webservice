@@ -24,6 +24,7 @@ Run fuse in fuse_6.2.1/bin
 
 Deploy using fabric8:
 
+    fabric:create --wait-for-provisioning
     mvn fabric8:deploy
     http://localhost:8181/hawtio/login
     Create container with profile claim
